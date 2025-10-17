@@ -48,7 +48,7 @@ Module for controlling all moveables behavior.
   ```
 
 - [lua]`trx.items.fn.get(arg)`  
-  Alias of `trx.items.get(arg)` exposed via the `fn` functions table.  
+  Alias of `trx.items[arg]`.
 
   Example:
   ```lua
