@@ -17,7 +17,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          submodules: 'true'
           fetch-depth: 1
           fetch-tags: false
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
@@ -25,15 +24,6 @@ jobs:
       - name: Configure git safe directory
         working-directory: ${{ github.workspace }}
         run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
-
-      - name: Install recent just
-        run: |
-          set -e
-          just_version='1.40.0'
-          curl -fsSL "https://github.com/casey/just/releases/download/${just_version}/just-${just_version}-x86_64-unknown-linux-musl.tar.gz" \
-            | tar -xz -C /usr/local/bin just
-          chmod +x /usr/local/bin/just
-          just --version
 
       - name: Check formatted code differences
         working-directory: ${{ github.workspace }}
