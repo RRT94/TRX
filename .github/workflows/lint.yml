@@ -8,6 +8,8 @@ jobs:
   lint:
     name: Run code linters
     runs-on: ubuntu-latest
+    env:
+      PREK_HOME: ${{ github.workspace }}/.cache/prek
     permissions:
       contents: read
       packages: read
@@ -24,6 +26,17 @@ jobs:
       - name: Configure git safe directory
         working-directory: ${{ github.workspace }}
         run: git config --global --add safe.directory "${GITHUB_WORKSPACE}"
+
+      - name: Ensure prek cache dir exists
+        run: mkdir -p "${PREK_HOME}"
+
+      - name: Restore prek cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/prek
+          key: prek-v1-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: |
+            prek-v1-${{ runner.os }}-
 
       - name: Check formatted code differences
         working-directory: ${{ github.workspace }}
@@ -49,7 +62,7 @@ jobs:
       - name: Check imports
         working-directory: ${{ github.workspace }}
         run: |
-          git add -A
+          git add -u
           just lint-imports
           git diff --exit-code || (
             include-what-you-use --version
