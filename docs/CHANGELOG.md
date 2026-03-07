@@ -15,6 +15,7 @@
 - fixed Lara dying from touching Trains that haven't yet been activated
 - fixed `O_KILL_ALL_TRIGGERED` removing unused Save Crystals (#5035)
 - fixed Pause text color
+- fixed too low volume in all FMVs (except logo which used a different codec)
 
 
 
